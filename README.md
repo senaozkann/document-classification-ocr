@@ -2,8 +2,7 @@
 
 OCR-based document text extraction and document classification using machine learning.
 
-**OCR Tabanlı Belge Sınıflandırma** — Konya Teknik Üniversitesi, Bilgisayar Mühendisliği Bitirme Projesi
-Sena Sultan Özkan
+**OCR Tabanlı Belge Sınıflandırma** —
 
 Taranmış belge görüntüleri OCR ile metne çevrilir, metin temizlenir ve belge türü makine öğrenmesiyle tahmin edilir.
 
