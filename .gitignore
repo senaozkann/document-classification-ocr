@@ -218,3 +218,8 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Proje verisi (RVL-CDIP görüntüleri ve OCR çıktıları) repoya eklenmez
+data/
+*.png
+!figures/*.png
