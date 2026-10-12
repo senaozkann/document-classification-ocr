@@ -49,7 +49,7 @@ Görüntüler lisans ve boyut nedeniyle repoya eklenmez; `01_data_preparation.ip
 | [`01_data_preparation`](notebooks/01_data_preparation.ipynb) | Veri setini indirir, 4 sınıfı filtreler, görüntüleri kaydeder | `metadata.csv` |
 | [`02_ocr_pipeline`](notebooks/02_ocr_pipeline.ipynb) | Ön işleme + Tesseract OCR, kelime kutuları, CER/WER | `ocr_dataset.csv` |
 | [`03_ocr_analysis_cleaning`](notebooks/03_ocr_analysis_cleaning.ipynb) | OCR kalite analizi, en iyi/kötü okunan belgeler, metin temizleme, etiket kontrolleri | `cleaned_dataset.csv` |
-| `04_classification` *(yakında)* | TF-IDF + NB / LR / Linear SVM, metrikler, confusion matrix | — |
+| [`04_classification`](notebooks/04_classification.ipynb) | TF-IDF (kelime + karakter) → NB / LR / Linear SVM, accuracy · precision · recall · F1, confusion matrix, sınıf bazlı analiz, şüpheli etiketler | `best_model.joblib` |
 | `05_end_to_end_demo` *(yakında)* | Yeni belge → OCR → tür tahmini | — |
 
 ## Kaynak kod
