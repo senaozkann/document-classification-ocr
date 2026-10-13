@@ -24,8 +24,9 @@ Belge görüntüsü
    ▼  Metin temizleme: OCR gürültüsü, tireleme, boşluk; e-posta/tutar/sayı normalizasyonu
    ▼  Özellik çıkarımı: TF-IDF
    ▼  Sınıflandırma: Multinomial Naive Bayes · Logistic Regression · Linear SVM
+   ▼  İçerik çıkarımı: türe özel kurallar + spaCy NER
    ▼
-Belge türü
+Belge türü + içerik  (ör. "Bu bir CV: ad, üniversite, bölüm")
 ```
 
 ## Veri seti
@@ -49,7 +50,7 @@ Görüntüler lisans ve boyut nedeniyle repoya eklenmez; `01_data_preparation.ip
 | [`02_ocr_pipeline`](notebooks/02_ocr_pipeline.ipynb) | Tesseract OCR (ham görüntü, v2), kelime kutuları, OCR istatistikleri | `ocr_dataset.csv` |
 | [`03_ocr_analysis_cleaning`](notebooks/03_ocr_analysis_cleaning.ipynb) | Ön işleme pilot deneyi, OCR kalite analizi, en iyi/kötü okunan belgeler, metin temizleme, etiket kontrolleri | `cleaned_dataset.csv` |
 | [`04_classification`](notebooks/04_classification.ipynb) | TF-IDF (kelime + karakter) → NB / LR / Linear SVM, accuracy · precision · recall · F1, confusion matrix, sınıf bazlı analiz, şüpheli etiketler | `best_model.joblib` |
-| `05_end_to_end_demo` *(yakında)* | Yeni belge → OCR → tür tahmini | — |
+| [`05_end_to_end_demo`](notebooks/05_end_to_end_demo.ipynb) | Yeni belge (resim/PDF) → OCR → tür tahmini → türe özel içerik çıkarımı, elle değerlendirme, Gradio demo | `cikarim_sonuclari.csv` |
 
 ## Bulgular (devam ediyor)
 
@@ -95,11 +96,12 @@ En sık hata, formların fatura olarak tahmin edilmesidir (100 formdan 12'si). K
 |---|---|
 | [`src/ocr_core.py`](src/ocr_core.py) | `preprocess()` görüntü ön işleme, `run_ocr()` Tesseract OCR |
 | [`src/text_clean.py`](src/text_clean.py) | `clean_text()`, `normalize_for_model()`, `garbage_ratio()` |
+| [`src/extract.py`](src/extract.py) | Türe özel içerik çıkarımı (regex + spaCy NER): CV, fatura, e-posta, form |
 
 ## Çalıştırma (Google Colab)
 
 1. Colab'da **File → Open notebook → GitHub** sekmesinden bu repoyu açın.
-2. Notebook'ları sırayla (01 → 02 → 03 → 04) **Runtime → Run all** ile çalıştırın.
+2. Notebook'ları sırayla (01 → 02 → 03 → 04 → 05) **Runtime → Run all** ile çalıştırın.
 3. Tüm çıktılar Google Drive'da `MyDrive/bitirme_ocr/` altına kaydedilir; oturum kapanırsa kaldığı yerden devam eder.
 
 OCR adımı CPU'da çalışır (2.400 belge ≈ 30–60 dk); GPU gerekmez.
