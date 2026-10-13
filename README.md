@@ -75,6 +75,20 @@ Klasik ön işleme adımları, RVL-CDIP'in düşük çözünürlüklü taramalar
 
 Düz metin ağırlıklı e-posta ve CV'ler iyi okunurken tablo, kutucuk ve el yazısı içeren fatura ve formlarda OCR güveni belirgin şekilde düşüktür.
 
+### Sınıflandırma (test seti, 400 belge)
+
+| Model | Özellik | Accuracy | Macro-F1 |
+|---|---|---|---|
+| **Linear SVM** | karakter TF-IDF | **0,9075** | **0,908** |
+| Logistic Regression | karakter TF-IDF | 0,9075 | 0,908 |
+| Linear SVM | kelime TF-IDF | 0,9025 | 0,904 |
+| Logistic Regression | kelime TF-IDF | 0,9000 | 0,901 |
+| Naive Bayes | karakter TF-IDF | 0,8975 | 0,898 |
+| Naive Bayes | kelime TF-IDF | 0,8875 | 0,889 |
+
+Sınıf bazında F1 (Linear SVM, karakter): resume 0,980 · email 0,918 · invoice 0,873 · form 0,862.
+En sık hata, formların fatura olarak tahmin edilmesidir (100 formdan 12'si). Karakter TF-IDF, OCR hatalarına dayanıklılığı sayesinde her algoritmada kelime TF-IDF'ten biraz daha iyi sonuç vermiştir. İlk dört model arasındaki farklar 400 belgelik test setinde istatistiksel olarak anlamlı değildir.
+
 ## Kaynak kod
 
 | Dosya | İçerik |
