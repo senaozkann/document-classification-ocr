@@ -25,8 +25,9 @@ Belge görüntüsü
    ▼  Özellik çıkarımı: TF-IDF
    ▼  Sınıflandırma: Multinomial Naive Bayes · Logistic Regression · Linear SVM
    ▼  İçerik çıkarımı: türe özel kurallar + spaCy NER
+   ▼  Konu özeti: anahtar kelimeler + 2 cümlelik çıkarımsal özet · tablo tespiti
    ▼
-Belge türü + içerik  (ör. "Bu bir CV: ad, üniversite, bölüm")
+Belge türü + içerik + konu  (ör. "Bu bir CV: ad, üniversite, bölüm · Konusu: ...")
 ```
 
 ## Veri seti
@@ -49,8 +50,8 @@ Görüntüler lisans ve boyut nedeniyle repoya eklenmez; `01_data_preparation.ip
 | [`01_data_preparation`](notebooks/01_data_preparation.ipynb) | Veri setini indirir, 4 sınıfı filtreler, görüntüleri kaydeder | `metadata.csv` |
 | [`02_ocr_pipeline`](notebooks/02_ocr_pipeline.ipynb) | Tesseract OCR (ham görüntü, v2), kelime kutuları, OCR istatistikleri | `ocr_dataset.csv` |
 | [`03_ocr_analysis_cleaning`](notebooks/03_ocr_analysis_cleaning.ipynb) | Ön işleme pilot deneyi, OCR kalite analizi, en iyi/kötü okunan belgeler, metin temizleme, etiket kontrolleri | `cleaned_dataset.csv` |
-| [`04_classification`](notebooks/04_classification.ipynb) | TF-IDF (kelime + karakter) → NB / LR / Linear SVM, accuracy · precision · recall · F1, confusion matrix, sınıf bazlı analiz, şüpheli etiketler | `best_model.joblib` |
-| [`05_end_to_end_demo`](notebooks/05_end_to_end_demo.ipynb) | Yeni belge (resim/PDF) → OCR → tür tahmini → türe özel içerik çıkarımı, elle değerlendirme, Gradio demo | `cikarim_sonuclari.csv` |
+| [`04_classification`](notebooks/04_classification.ipynb) | TF-IDF (kelime + karakter) → NB / LR / Linear SVM, accuracy · precision · recall · F1, confusion matrix, sınıf bazlı analiz, şüpheli etiketler, tablo özelliği deneyi | `best_model.joblib` |
+| [`05_end_to_end_demo`](notebooks/05_end_to_end_demo.ipynb) | Yeni belge (resim/PDF) → OCR → tür tahmini → türe özel içerik çıkarımı + konu özeti + tablo tespiti, elle değerlendirme, Gradio demo | `cikarim_sonuclari.csv` |
 
 ## Bulgular (devam ediyor)
 
@@ -94,9 +95,9 @@ En sık hata, formların fatura olarak tahmin edilmesidir (100 formdan 12'si). K
 
 | Dosya | İçerik |
 |---|---|
-| [`src/ocr_core.py`](src/ocr_core.py) | `preprocess()` görüntü ön işleme, `run_ocr()` Tesseract OCR |
+| [`src/ocr_core.py`](src/ocr_core.py) | `preprocess()` görüntü ön işleme, `run_ocr()` Tesseract OCR, `detect_table()` tablo tespiti |
 | [`src/text_clean.py`](src/text_clean.py) | `clean_text()`, `normalize_for_model()`, `garbage_ratio()` |
-| [`src/extract.py`](src/extract.py) | Türe özel içerik çıkarımı (regex + spaCy NER): CV, fatura, e-posta, form |
+| [`src/extract.py`](src/extract.py) | Türe özel içerik çıkarımı (regex + spaCy NER) ve `TopicSummarizer` konu özeti |
 
 ## Çalıştırma (Google Colab)
 

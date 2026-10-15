@@ -225,3 +225,77 @@ def summarize(label, fields):
 def extract(text, label):
     fields = EXTRACTORS[label](text or "")
     return {"alanlar": fields, "ozet": summarize(label, fields)}
+
+
+# ---------------------------------------------------------------- konu özeti (danışmanın "ikinci aşama" hedefi)
+import numpy as np
+from sklearn.feature_extraction.text import TfidfVectorizer, ENGLISH_STOP_WORDS
+
+_GENERIC = {"new", "please", "thank", "thanks", "dear", "regards", "sincerely", "page", "shows", "also",
+            "would", "could", "like", "just", "know", "let", "use", "used", "make", "need", "want", "good",
+            "subject", "cc", "bcc", "sent", "fax", "tel", "phone", "date", "re", "fwd", "attached"}
+_STOP = sorted(ENGLISH_STOP_WORDS | _GENERIC)
+
+_SENT_SPLIT = re.compile(r"(?<=[.!?])\s+|\n+")
+
+
+class TopicSummarizer:
+    """Belgenin ne hakkında olduğunu anlatan anahtar kelimeler + 2-3 cümlelik çıkarımsal özet.
+
+    Kelime ağırlıkları (TF-IDF) eğitim belgelerinden öğrenilir: bir belgede sık geçen ama
+    tüm belgelerde yaygın olmayan kelimeler o belgenin konusunu temsil eder. OCR çöpü genelde
+    tek bir belgede geçtiği için min_df=2 ile sözlüğe girmez.
+    """
+
+    def __init__(self, min_df=2, max_df=0.5):
+        self.vec = TfidfVectorizer(stop_words=_STOP, ngram_range=(1, 2), min_df=min_df, max_df=max_df,
+                                   sublinear_tf=True, token_pattern=r"(?u)\b[a-zA-Z][a-zA-Z]{2,}\b")
+
+    def fit(self, texts):
+        self.vec.fit([t for t in texts if isinstance(t, str)])
+        self.vocab_ = self.vec.vocabulary_
+        self.names_ = self.vec.get_feature_names_out()
+        return self
+
+    def keywords(self, text, k=6):
+        if not text:
+            return []
+        row = self.vec.transform([text]).toarray().ravel()
+        order = np.argsort(row)[::-1]
+        out = []
+        for i in order:
+            if row[i] <= 0 or len(out) >= k:
+                break
+            term = self.names_[i]
+            if any(term in o or o in term for o in out):   # "invoice" ile "invoice number" tekrarını önle
+                continue
+            out.append(term)
+        return out
+
+    def _sentences(self, text):
+        sents = []
+        for s in _SENT_SPLIT.split(text):
+            s = " ".join(s.split())
+            words = s.split()
+            alpha = sum(w.isalpha() for w in words)
+            if len(words) >= 5 and alpha / len(words) >= 0.6 and len(s) <= 300:
+                sents.append(s)
+        return sents
+
+    def summary(self, text, n=2):
+        sents = self._sentences(text or "")
+        if not sents:
+            return []
+        m = self.vec.transform(sents)
+        scores = np.asarray(m.sum(axis=1)).ravel() / np.sqrt(np.maximum(m.getnnz(axis=1), 1))
+        top = sorted(np.argsort(scores)[::-1][:n])
+        return [sents[i] for i in top if scores[i] > 0]
+
+    def describe(self, text, label, k=6, n=2):
+        kws = self.keywords(text, k)
+        sents = self.summary(text, n)
+        tur = TR_NAMES.get(label, label)
+        line = f"Bu bir {tur}."
+        if kws:
+            line += f" Konusu / anahtar kelimeler: {', '.join(kws)}."
+        return {"anahtar_kelimeler": kws, "ozet_cumleler": sents, "konu_ozeti": line}

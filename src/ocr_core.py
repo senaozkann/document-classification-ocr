@@ -75,3 +75,30 @@ def run_ocr(img, lang="eng", psm=3, min_conf=0):
         "n_words": len(words),
         "mean_conf": float(np.mean(confs)) if confs else 0.0,
     }
+
+
+def detect_table(gray):
+    """Morfolojik işlemlerle yatay/dikey çizgileri bulup belgede tablo olup olmadığını tahmin eder.
+
+    OCR tabloları bozarak okuduğu için (danışman/asistan görüşmesi) tablo bilgisi
+    görüntüden ayrıca çıkarılır ve sınıflandırmada ek özellik olarak kullanılabilir.
+    """
+    img = gray if gray.ndim == 2 else cv2.cvtColor(gray, cv2.COLOR_BGR2GRAY)
+    h, w = img.shape
+    _, th = cv2.threshold(img, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)
+    hk = cv2.getStructuringElement(cv2.MORPH_RECT, (max(10, w // 25), 1))
+    vk = cv2.getStructuringElement(cv2.MORPH_RECT, (1, max(10, h // 25)))
+    horiz = cv2.morphologyEx(th, cv2.MORPH_OPEN, hk)
+    vert = cv2.morphologyEx(th, cv2.MORPH_OPEN, vk)
+    n_h = len(cv2.findContours(horiz, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[0])
+    n_v = len(cv2.findContours(vert, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[0])
+    inter = cv2.bitwise_and(cv2.dilate(horiz, np.ones((3, 3), np.uint8)), cv2.dilate(vert, np.ones((3, 3), np.uint8)))
+    n_x = len(cv2.findContours(inter, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)[0])
+    line_ratio = float((horiz > 0).mean() + (vert > 0).mean())
+    return {
+        "n_hlines": n_h,
+        "n_vlines": n_v,
+        "n_intersections": n_x,
+        "line_ratio": round(line_ratio, 5),
+        "has_table": bool(n_h >= 3 and n_v >= 2 and n_x >= 4),
+    }
