@@ -52,6 +52,7 @@ Görüntüler lisans ve boyut nedeniyle repoya eklenmez; `01_data_preparation.ip
 | [`03_ocr_analysis_cleaning`](notebooks/03_ocr_analysis_cleaning.ipynb) | Ön işleme pilot deneyi, OCR kalite analizi, en iyi/kötü okunan belgeler, metin temizleme, etiket kontrolleri | `cleaned_dataset.csv` |
 | [`04_classification`](notebooks/04_classification.ipynb) | TF-IDF (kelime + karakter) → NB / LR / Linear SVM, accuracy · precision · recall · F1, confusion matrix, sınıf bazlı analiz, şüpheli etiketler, tablo özelliği deneyi | `best_model.joblib` |
 | [`05_end_to_end_demo`](notebooks/05_end_to_end_demo.ipynb) | Yeni belge (resim/PDF) → OCR → tür tahmini → türe özel içerik çıkarımı + konu özeti + tablo tespiti, elle değerlendirme, Gradio demo | `cikarim_sonuclari.csv` |
+| [`06_sinif_secimi`](notebooks/06_sinif_secimi.ipynb) | 16 sınıfa bakış; form yerine aday sınıflar (letter, news_article, scientific_publication) indirilir, OCR'dan geçirilir ve aynı modelle karşılaştırılır | `sinif_secimi_sonuclari.csv` |
 
 ## Bulgular (devam ediyor)
 

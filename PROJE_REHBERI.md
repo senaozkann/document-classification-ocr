@@ -19,7 +19,8 @@ document-classification-ocr/
 │   ├── 02_ocr_pipeline.ipynb           OCR ile metin çıkar
 │   ├── 03_ocr_analysis_cleaning.ipynb  OCR analizi, metin temizleme
 │   ├── 04_classification.ipynb         TF-IDF + NB / LR / SVM, metrikler
-│   └── 05_end_to_end_demo.ipynb        Yeni belge → tür + içerik, Gradio demo
+│   ├── 05_end_to_end_demo.ipynb        Yeni belge → tür + içerik, Gradio demo
+│   └── 06_sinif_secimi.ipynb           Form yerine hangi sınıf? Aday sınıf deneyi
 └── src/
     ├── ocr_core.py           OCR fonksiyonları
     ├── text_clean.py         Metin temizleme
