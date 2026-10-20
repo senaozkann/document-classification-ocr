@@ -20,11 +20,15 @@ document-classification-ocr/
 │   ├── 03_ocr_analysis_cleaning.ipynb  OCR analizi, metin temizleme
 │   ├── 04_classification.ipynb         TF-IDF + NB / LR / SVM, metrikler
 │   ├── 05_end_to_end_demo.ipynb        Yeni belge → tür + içerik, Gradio demo
-│   └── 06_sinif_secimi.ipynb           Form yerine hangi sınıf? Aday sınıf deneyi
+│   ├── 06_sinif_secimi.ipynb           Form yerine hangi sınıf? Aday sınıf deneyi
+│   ├── 07_sablon_ve_sozluk.ipynb       Anahtar kelime şablonu + sözlükle OCR düzeltme
+│   └── 08_gurultu_giderme.ipynb        Gürültü giderme yöntemlerinin karşılaştırması
 └── src/
     ├── ocr_core.py           OCR fonksiyonları
     ├── text_clean.py         Metin temizleme
-    └── extract.py            Türe özel içerik çıkarımı
+    ├── extract.py            Türe özel içerik çıkarımı
+    ├── sablon.py             Belge türü şablonları
+    └── ocr_fix.py            Sözlükle OCR düzeltme
 ```
 
 ## Drive'daki yapı (`MyDrive/bitirme_ocr/`)
@@ -46,4 +50,4 @@ bitirme_ocr/
 
 1. colab.research.google.com → **File → Upload notebook** → `notebooks/` içinden dosyayı seç
 2. **Runtime → Run all**
-3. Sıra: 01 → 02 → 03 → 04 → 05
+3. Sıra: 01 → 02 → 06 → 03 → 04 → 05 → 07 → 08

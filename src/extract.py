@@ -199,8 +199,83 @@ def extract_form(text):
     }
 
 
-EXTRACTORS = {"resume": extract_resume, "invoice": extract_invoice, "email": extract_email, "form": extract_form}
-TR_NAMES = {"resume": "CV", "invoice": "fatura", "email": "e-posta", "form": "form"}
+_CLOSING = re.compile(r"^\s*(?:sincerely|yours\s+(?:truly|sincerely|faithfully|very\s+truly)|very\s+truly\s+yours|"
+                      r"respectfully(?:\s+yours)?|best\s+regards|kind\s+regards|regards|cordially)\b", re.I)
+_SALUTATION = re.compile(r"^\s*dear\s+(.{2,60}?)\s*[:,;]?\s*$", re.I | re.M)
+
+
+def extract_letter(text):
+    """Mektup / resmi yazı (dilekçe): kurum (antet), tarih, alıcı, hitap, konu, imza sahibi."""
+    lines = _lines(text)
+    salute = _first(_SALUTATION, text, 1)
+    sal_idx = next((i for i, l in enumerate(lines) if _SALUTATION.match(l)), None)
+    # imza: kapanış ifadesinden sonraki ilk isim gibi görünen satır
+    signer = None
+    close_idx = next((i for i, l in enumerate(lines) if _CLOSING.match(l)), None)
+    if close_idx is not None:
+        signer = next((l for l in lines[close_idx + 1:close_idx + 6] if _looks_like_name(l)), None)
+        if signer is None:
+            persons = _ents("\n".join(lines[close_idx + 1:close_idx + 6]), {"PERSON"})
+            signer = persons[0] if persons else None
+    # alıcı adresi: tarih ile "Dear" arasındaki blokta isim gibi görünen ilk satır
+    head = [l for l in lines[:4] if not DATE.search(l)]
+    org = next((l for l in head if _CORP.search(l)), None)
+    if org is None:
+        orgs = _ents("\n".join(head), {"ORG"})
+        org = orgs[0] if orgs else None
+    recipient = None
+    if sal_idx:
+        date_idx = next((i for i, l in enumerate(lines[:sal_idx]) if DATE.search(l)), -1)
+        window = lines[max(date_idx + 1, sal_idx - 8):sal_idx]
+        recipient = next((l for l in window if _looks_like_name(l) and l != org), None)
+    return {
+        "kurum": org,
+        "tarih": _first(DATE, text),
+        "alici": recipient,
+        "hitap": salute,
+        "konu": _header(text, "re|subject|subj"),
+        "imza": signer,
+    }
+
+
+_DATELINE = re.compile(r"^([A-Z][A-Z .,'-]{2,40})\s*(?:\((?:AP|UPI|Reuters|AFP)\))?\s*[-—–]{1,2}\s", re.M)
+
+
+def extract_news(text):
+    """Gazete haberi: başlık, yer (dateline), tarih, haberde geçen kişi ve kurumlar."""
+    lines = _lines(text)
+    title = next((l for l in lines[:6] if 3 <= len(l.split()) <= 15 and sum(c.isalpha() for c in l) > 10), None)
+    return {
+        "baslik": title,
+        "yer": _first(_DATELINE, text, 1),
+        "tarih": _first(DATE, text),
+        "kisiler": _ents(text, {"PERSON"})[:4] or None,
+        "kurumlar": _ents(text, {"ORG"})[:4] or None,
+    }
+
+
+def extract_scientific(text):
+    """Bilimsel makale: başlık, yazarlar, özet (Abstract), anahtar kelimeler."""
+    lines = _lines(text)
+    title = next((l for l in lines[:6] if len(l.split()) >= 4 and sum(c.isalpha() for c in l) > 15), None)
+    authors = [p for p in _ents("\n".join(lines[:12]), {"PERSON"})][:5] or None
+    m = re.search(r"\babstract\b[\s:.-]*(.{20,600}?)(?:\n\s*\n|\b(?:introduction|key\s*words?|keywords)\b|$)",
+                  text, re.I | re.S)
+    abstract = " ".join(m.group(1).split())[:300] if m else None
+    kw = _first(re.compile(r"\bkey\s*words?\s*[:.-]\s*(.+)", re.I), text, 1)
+    return {
+        "baslik": title,
+        "yazarlar": authors,
+        "ozet": abstract,
+        "anahtar_kelimeler": kw,
+        "kaynakca_var": bool(re.search(r"\b(?:references|bibliography|literature cited)\b", text, re.I)),
+    }
+
+
+EXTRACTORS = {"resume": extract_resume, "invoice": extract_invoice, "email": extract_email, "form": extract_form,
+              "letter": extract_letter, "news_article": extract_news, "scientific_publication": extract_scientific}
+TR_NAMES = {"resume": "CV", "invoice": "fatura", "email": "e-posta", "form": "form",
+            "letter": "resmi yazı / mektup", "news_article": "gazete haberi", "scientific_publication": "bilimsel makale"}
 
 
 def summarize(label, fields):
@@ -215,15 +290,24 @@ def summarize(label, fields):
     elif label == "email":
         who = " → ".join(x for x in (f.get("gonderen"), f.get("alici")) if x) or None
         parts = [who, f"Konu: {f['konu']}" if f.get("konu") else None, f.get("tarih")]
+    elif label == "letter":
+        parts = [f.get("kurum"), f.get("tarih"), f"Alıcı: {f.get('hitap') or f.get('alici')}" if (f.get("hitap") or f.get("alici")) else None,
+                 f"Konu: {f['konu']}" if f.get("konu") else None, f"İmza: {f['imza']}" if f.get("imza") else None]
+    elif label == "news_article":
+        parts = [f.get("baslik"), f.get("yer"), f.get("tarih"),
+                 "Kişiler: " + ", ".join(f["kisiler"][:3]) if f.get("kisiler") else None]
+    elif label == "scientific_publication":
+        parts = [f.get("baslik"), "Yazarlar: " + ", ".join(f["yazarlar"][:3]) if f.get("yazarlar") else None,
+                 f"Anahtar kelimeler: {f['anahtar_kelimeler']}" if f.get("anahtar_kelimeler") else None]
     else:
         kv = list((f.get("alanlar") or {}).items())[:4]
         parts = [f.get("baslik")] + [f"{k} = {v}" for k, v in kv]
     parts = [p for p in parts if p]
-    return f"Bu bir {TR_NAMES[label]}" + (": " + " · ".join(parts) if parts else " (içerik alanları okunamadı)")
+    return f"Bu bir {TR_NAMES.get(label, label)}" + (": " + " · ".join(parts) if parts else " (içerik alanları okunamadı)")
 
 
 def extract(text, label):
-    fields = EXTRACTORS[label](text or "")
+    fields = EXTRACTORS.get(label, extract_form)(text or "")
     return {"alanlar": fields, "ozet": summarize(label, fields)}
 
 

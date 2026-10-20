@@ -15,6 +15,8 @@ Taranmış belge görüntüleri OCR ile metne çevrilir, metin temizlenir ve bel
 | Fatura | `invoice` |
 | CV | `resume` |
 
+Sınıf listesi Drive'daki `siniflar.json` ile değiştirilebilir (06). Form yerine aday sınıflar: `letter` (resmi yazı / dilekçe), `news_article`, `scientific_publication`.
+
 ## Pipeline
 
 ```
@@ -52,7 +54,9 @@ Görüntüler lisans ve boyut nedeniyle repoya eklenmez; `01_data_preparation.ip
 | [`03_ocr_analysis_cleaning`](notebooks/03_ocr_analysis_cleaning.ipynb) | Ön işleme pilot deneyi, OCR kalite analizi, en iyi/kötü okunan belgeler, metin temizleme, etiket kontrolleri | `cleaned_dataset.csv` |
 | [`04_classification`](notebooks/04_classification.ipynb) | TF-IDF (kelime + karakter) → NB / LR / Linear SVM, accuracy · precision · recall · F1, confusion matrix, sınıf bazlı analiz, şüpheli etiketler, tablo özelliği deneyi | `best_model.joblib` |
 | [`05_end_to_end_demo`](notebooks/05_end_to_end_demo.ipynb) | Yeni belge (resim/PDF) → OCR → tür tahmini → türe özel içerik çıkarımı + konu özeti + tablo tespiti, elle değerlendirme, Gradio demo | `cikarim_sonuclari.csv` |
-| [`06_sinif_secimi`](notebooks/06_sinif_secimi.ipynb) | 16 sınıfa bakış; form yerine aday sınıflar (letter, news_article, scientific_publication) indirilir, OCR'dan geçirilir ve aynı modelle karşılaştırılır | `sinif_secimi_sonuclari.csv` |
+| [`06_sinif_secimi`](notebooks/06_sinif_secimi.ipynb) | 16 sınıfa bakış; form yerine aday sınıflar (letter, news_article, scientific_publication) indirilir, OCR'dan geçirilir ve aynı modelle karşılaştırılır; seçim `siniflar.json`'a yazılır, 03–05 bu listeyle çalışır | `sinif_secimi_sonuclari.csv`, `siniflar.json` |
+| [`07_sablon_ve_sozluk`](notebooks/07_sablon_ve_sozluk.ipynb) | Her türün ortak ifadelerinden şablon (tek başına ve TF-IDF'e destek olarak); sözlükle OCR hata düzeltme (OCR karışıklık kuralları + SymSpell) ve sınıflandırmaya etkisi | `sablon_sonuclari.csv`, `sozluk_sonuclari.csv` |
+| [`08_gurultu_giderme`](notebooks/08_gurultu_giderme.ipynb) | Median, Gauss, non-local means, Fourier (alçak geçiren, katsayı eşikleme) ve küçük leke silme: hangisi metni en az bozuyor? | `gurultu_sonuclari.csv` |
 
 ## Bulgular (devam ediyor)
 
@@ -99,6 +103,8 @@ En sık hata, formların fatura olarak tahmin edilmesidir (100 formdan 12'si). K
 | [`src/ocr_core.py`](src/ocr_core.py) | `preprocess()` görüntü ön işleme, `run_ocr()` Tesseract OCR, `detect_table()` tablo tespiti |
 | [`src/text_clean.py`](src/text_clean.py) | `clean_text()`, `normalize_for_model()`, `garbage_ratio()` |
 | [`src/extract.py`](src/extract.py) | Türe özel içerik çıkarımı (regex + spaCy NER) ve `TopicSummarizer` konu özeti |
+| [`src/sablon.py`](src/sablon.py) | Belge türü şablonları: her türün ortak ifadeleri, kural tabanlı tahmin, model için şablon özellikleri |
+| [`src/ocr_fix.py`](src/ocr_fix.py) | Sözlükle OCR düzeltme: OCR karışıklık kuralları, alan adı kuralı, SymSpell |
 
 ## Çalıştırma (Google Colab)
 
