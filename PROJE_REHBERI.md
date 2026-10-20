@@ -22,7 +22,8 @@ document-classification-ocr/
 │   ├── 05_end_to_end_demo.ipynb        Yeni belge → tür + içerik, Gradio demo
 │   ├── 06_sinif_secimi.ipynb           Form yerine hangi sınıf? Aday sınıf deneyi
 │   ├── 07_sablon_ve_sozluk.ipynb       Anahtar kelime şablonu + sözlükle OCR düzeltme
-│   └── 08_gurultu_giderme.ipynb        Gürültü giderme yöntemlerinin karşılaştırması
+│   ├── 08_gurultu_giderme.ipynb        Gürültü giderme yöntemlerinin karşılaştırması
+│   └── 09_elle_degerlendirme.ipynb     İçerik çıkarımını resme bakarak elle değerlendirme
 └── src/
     ├── ocr_core.py           OCR fonksiyonları
     ├── text_clean.py         Metin temizleme

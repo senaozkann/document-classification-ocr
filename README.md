@@ -57,6 +57,7 @@ Görüntüler lisans ve boyut nedeniyle repoya eklenmez; `01_data_preparation.ip
 | [`06_sinif_secimi`](notebooks/06_sinif_secimi.ipynb) | 16 sınıfa bakış; form yerine aday sınıflar (letter, news_article, scientific_publication) indirilir, OCR'dan geçirilir ve aynı modelle karşılaştırılır; seçim `siniflar.json`'a yazılır, 03–05 bu listeyle çalışır | `sinif_secimi_sonuclari.csv`, `siniflar.json` |
 | [`07_sablon_ve_sozluk`](notebooks/07_sablon_ve_sozluk.ipynb) | Her türün ortak ifadelerinden şablon (tek başına ve TF-IDF'e destek olarak); sözlükle OCR hata düzeltme (OCR karışıklık kuralları + SymSpell) ve sınıflandırmaya etkisi | `sablon_sonuclari.csv`, `sozluk_sonuclari.csv` |
 | [`08_gurultu_giderme`](notebooks/08_gurultu_giderme.ipynb) | Median, Gauss, non-local means, Fourier (alçak geçiren, katsayı eşikleme) ve küçük leke silme: hangisi metni en az bozuyor? | `gurultu_sonuclari.csv` |
+| [`09_elle_degerlendirme`](notebooks/09_elle_degerlendirme.ipynb) | İçerik çıkarımının elle değerlendirilmesi: belge resmi + çıkarılan alanlar, Doğru / Yanlış / Kaçırıldı / Belgede yok düğmeleri; precision, recall | `cikarim_sonuclari_v2.csv` |
 
 ## Bulgular (devam ediyor)
 
