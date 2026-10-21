@@ -49,7 +49,7 @@ def find_date(text):
 
 # v2: Avrupa yazımı (100.000,00) da tutar; "100.000,00" artık "100.00" diye kesilmiyor
 _NUM = r"(?:\d{1,3}(?:\.\d{3})+(?:,\d{2})?|\d{1,3}(?:,\d{3})+(?:\.\d{2})?|\d+(?:[.,]\d{2})?)"
-_NUM_DEC = r"(?:\d{1,3}(?:\.\d{3})+,\d{2}|\d{1,3}(?:,\d{3})+\.\d{2}|\d+[.,]\d{2})"
+_NUM_DEC = r"(?:\d{1,3}(?:[.,]\d{3})+[.,]\d{2}|\d+[.,]\d{2})"   # OCR ayraçları karıştırabiliyor: 20.000.00
 _CUR = r"(?:usd|eur|gbp|tl|try)\b"
 MONEY = re.compile(rf"(?<![\d.,])(?:[$€£₺]\s?{_NUM}(?:\s?{_CUR})?|{_NUM_DEC}(?:\s?{_CUR})?|{_NUM}\s?{_CUR})(?![\d]|[.,]\d)", re.I)
 
