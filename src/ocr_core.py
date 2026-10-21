@@ -102,3 +102,48 @@ def detect_table(gray):
         "line_ratio": round(line_ratio, 5),
         "has_table": bool(n_h >= 3 and n_v >= 2 and n_x >= 4),
     }
+
+
+def rotate_bound(gray, angle):
+    """Görüntüyü kırpmadan döndürür (köşeler beyazla doldurulur)."""
+    h, w = gray.shape
+    M = cv2.getRotationMatrix2D((w / 2, h / 2), angle, 1.0)
+    cos, sin = abs(M[0, 0]), abs(M[0, 1])
+    nw, nh = int(h * sin + w * cos), int(h * cos + w * sin)
+    M[0, 2] += nw / 2 - w / 2
+    M[1, 2] += nh / 2 - h / 2
+    return cv2.warpAffine(gray, M, (nw, nh), flags=cv2.INTER_CUBIC, borderValue=255)
+
+
+def ocr_with_orientation(img):
+    """Yan, eğik ya da ters dönmüş sayfayı düzeltip OCR yapar.
+
+    21 Ekim: elle değerlendirmede ~77° dönük bir fatura hiç okunamamıştı ("WoRsN"). Yazı satırlarının açısı,
+    satır toplamlarının en keskin olduğu açı aranarak (-90°…+90°) bulunur; satır yönü 180° belirsiz olduğu için
+    sayfa o açıyla ve ters yönüyle okunur. Açı küçükse Tesseract'ın yön tespiti (OSD) baş aşağı sayfaya bakar.
+    Aday hâller arasından en çok ve en emin kelimeyi veren seçilir; asıl hâlden en az %20 iyi değilse sayfaya
+    dokunulmaz, böylece düz belgeler bozulmaz.
+    Dönüş: (görüntü, ocr sonucu, döndürme açısı)
+    """
+    import re
+    gray = img if img.ndim == 2 else cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    ocr = run_ocr(gray)
+    score = lambda o: o["n_words"] * o["mean_conf"]
+    angles = []
+    a = estimate_skew(gray, max_angle=90, step=1.0)
+    if abs(a) >= 3:
+        angles += [a, a + 180]
+    else:
+        try:
+            osd = pytesseract.image_to_osd(gray, config="--psm 0 -c min_characters_to_try=5")
+            if int(re.search(r"Rotate: (\d+)", osd).group(1)) == 180:
+                angles.append(180)
+        except Exception:
+            pass
+    best = (gray, ocr, 0)
+    for ang in angles:
+        r = rotate_bound(gray, ang)
+        o = run_ocr(r)
+        if score(o) > 1.2 * score(best[1]):
+            best = (r, o, ang)
+    return best

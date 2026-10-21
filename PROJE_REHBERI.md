@@ -23,7 +23,8 @@ document-classification-ocr/
 │   ├── 06_sinif_secimi.ipynb           Form yerine hangi sınıf? Aday sınıf deneyi
 │   ├── 07_sablon_ve_sozluk.ipynb       Anahtar kelime şablonu + sözlükle OCR düzeltme
 │   ├── 08_gurultu_giderme.ipynb        Gürültü giderme yöntemlerinin karşılaştırması
-│   └── 09_elle_degerlendirme.ipynb     İçerik çıkarımını resme bakarak elle değerlendirme
+│   ├── 09_elle_degerlendirme.ipynb     İçerik çıkarımını resme bakarak elle değerlendirme
+│   └── 10_son_model.ipynb              Son model (metin + tablo), "emin değilim", çıkarım önce/sonra
 └── src/
     ├── ocr_core.py           OCR fonksiyonları
     ├── text_clean.py         Metin temizleme
@@ -51,4 +52,4 @@ bitirme_ocr/
 
 1. colab.research.google.com → **File → Upload notebook** → `notebooks/` içinden dosyayı seç
 2. **Runtime → Run all**
-3. Sıra: 01 → 02 → 06 → 03 → 04 → 05 → 07 → 08
+3. Sıra: 01 → 02 → 06 → 03 → 04 → 10 → 05 → 07 → 08 (10, 05'ten önce çalışırsa demo son modeli kullanır)
