@@ -99,7 +99,8 @@ def _is_name_token(t):
     return len(t) >= 2 and core.isalpha() and t[0].isupper() and (t[1:].replace("-", "").islower() or t.isupper())
 _NAME_SUFFIX = re.compile(r"^(?:M\.?D\.?|Ph\.?D\.?|Jr\.?|Sr\.?)$")
 _NAME_LABEL = re.compile(r"^\s*(?:full\s+)?name\b\s*[:;]?\s*(.*)$", re.I)
-_NOT_NAME_EXTRA = ("institution", "location", "field", "study", "year", "conferred", "birthdate")
+_NOT_NAME_EXTRA = ("institution", "location", "field", "study", "year", "conferred", "birthdate", "assistant",
+                   "fellow", "scientist", "lecturer", "instructor", "manager", "engineer", "head", "member")
 
 
 def _name_candidate(segment):
@@ -461,6 +462,12 @@ def _is_title_line(l):
             and mean_len >= 4 and not _NOT_TITLE.search(l) and not _AFFIL.search(l) and _wordlike_ratio(l) >= 0.7)
 
 
+def _looks_like_author_line(l):
+    """"Pauline M. Tang, Judith Finkelstein" gibi: virgülle ayrılmış, büyük harfle başlayan ad grupları."""
+    parts = [p.strip() for p in re.split(r",|\band\b", l) if p.strip()]
+    return len(parts) >= 2 and sum(bool(re.match(r"^[A-Z][\w.'-]*(?:\s+[A-Z][\w.'-]*){1,3}$", p)) for p in parts) >= 2
+
+
 def _scientific_title(lines):
     """v2: dergi künyesi, faks başlığı, "Printed in Great Britain" gibi satırları atlar; başlık iki satıra
     bölünmüşse birleştirir."""
@@ -468,9 +475,13 @@ def _scientific_title(lines):
         if _is_title_line(l) and len(l.split()) >= 4:
             title, j = l, i + 1
             while j < min(i + 3, len(lines)) and _is_title_line(lines[j]) and not re.match(r"^\s*by\b", lines[j], re.I) \
-                    and not title.rstrip().endswith((".", ":")):
+                    and not _looks_like_author_line(lines[j]) and not title.rstrip().endswith((".", ":")):
                 title += " " + lines[j]
                 j += 1
+            prev = lines[i - 1] if i > 0 else ""
+            if prev and prev.isupper() and l.isupper() and 1 <= len(prev.split()) <= 6 and not _NOT_TITLE.search(prev) \
+                    and sum(c.isalpha() for c in prev) >= 5 and _wordlike_ratio(prev) >= 0.7:
+                title = prev + " " + title           # "CHARACTERIZATION" + "OF AIRBORNE PARTICULATE MATTER"
             return title.strip(), j
     return None, 0
 
@@ -490,7 +501,9 @@ def _scientific_authors(lines, after):
             if parts and sum(bool(re.search(r"[A-Za-z]{2,}", p)) for p in parts) >= max(1, len(parts) // 2):
                 return parts[:5]
         caps = [w for w in cand.split() if w[:1].isupper() or re.fullmatch(r"\d\.", w)]   # OCR: "J." → "3."
-        if 2 <= len(cand.split()) <= 5 and len(caps) == len(cand.split()):   # tek yazar: "DAVID J. LEWIS"
+        stop = {"in", "of", "the", "for", "on", "at", "to", "from", "with", "by"}
+        if 2 <= len(cand.split()) <= 5 and len(caps) == len(cand.split()) \
+                and not any(w.lower() in stop for w in cand.split()):   # tek yazar: "DAVID J. LEWIS"
             return [cand.strip()]
     return None
 
@@ -526,7 +539,8 @@ TR_NAMES = {"resume": "CV", "invoice": "fatura", "email": "e-posta", "form": "fo
 def summarize(label, fields):
     f = fields
     if label == "resume":
-        parts = [f.get("ad_soyad"), f.get("universite"), f.get("bolum_derece")]
+        parts = [f.get("ad_soyad"), f.get("universite"),
+                 f.get("bolum_derece") if f.get("bolum_derece") != f.get("universite") else None]
         if f.get("beceriler"):
             parts.append("Beceriler: " + ", ".join(f["beceriler"][:5]))
     elif label == "invoice":
