@@ -53,7 +53,7 @@ def run_ocr(img, lang="eng", psm=3, min_conf=0):
     h, w = img.shape[:2]
     d = pytesseract.image_to_data(img, lang=lang, config=f"--oem 1 --psm {psm}",
                                   output_type=pytesseract.Output.DICT)
-    words, boxes, confs, lines = [], [], [], {}
+    words, boxes, confs, lines, line_boxes = [], [], [], {}, {}
     for i, txt in enumerate(d["text"]):
         txt = txt.strip()
         conf = float(d["conf"][i])
@@ -66,8 +66,11 @@ def run_ocr(img, lang="eng", psm=3, min_conf=0):
                       int(1000 * (x + bw) / w), int(1000 * (y + bh) / h)])
         key = (d["block_num"][i], d["par_num"][i], d["line_num"][i])
         lines.setdefault(key, []).append(txt)
+        lb = line_boxes.setdefault(key, [x, y, x + bw, y + bh])
+        lb[0], lb[1], lb[2], lb[3] = min(lb[0], x), min(lb[1], y), max(lb[2], x + bw), max(lb[3], y + bh)
     text = "\n".join(" ".join(v) for _, v in sorted(lines.items()))
     return {
+        "lines": [{"text": " ".join(lines[k]), "box": line_boxes[k]} for k in sorted(lines)],
         "text": text,
         "words": words,
         "boxes": boxes,
@@ -174,3 +177,41 @@ def ocr_with_orientation(img, upscale=True):
         g2, o2, _ = upscale_if_small(best[0], best[1])
         best = (g2, o2, best[2])
     return best
+
+
+_LABEL_LINE = None
+
+
+def join_label_lines(ocr, max_label_words=3):
+    """Etiket–değer düzenini satır olarak yeniden kurar (21 Ekim, genel iyileştirme).
+
+    Tesseract iki sütunlu başlıkları (sol sütunda "From:", "Date:" … sağ sütunda değerler) ayrı bloklar
+    olarak okur; etiket ile değeri ayrı satırlara düşer. Kelime koordinatları kullanılarak, yalnızca bir
+    etiketten oluşan satır ("From:", "Invoice No:"), aynı yükseklikte sağında duran satırla birleştirilir.
+    Diğer satırlara dokunulmaz (ör. iki sütunlu makale gövdesi birleştirilmez).
+    """
+    import re
+    global _LABEL_LINE
+    if _LABEL_LINE is None:
+        _LABEL_LINE = re.compile(r"^[A-Za-z][A-Za-z ./&#()'-]{0,30}[:;]$")
+    L = [dict(l) for l in ocr.get("lines", [])]
+    if not L:
+        return ocr["text"]
+    used, out = set(), []
+    for i, l in enumerate(L):
+        if i in used:
+            continue
+        t = l["text"].strip()
+        if _LABEL_LINE.match(t) and len(t.split()) <= max_label_words:
+            x0, y0, x1, y1 = l["box"]
+            yc, h = (y0 + y1) / 2, max(1, y1 - y0)
+            cands = [(L[j]["box"][0] - x1, j) for j in range(len(L)) if j != i and j not in used
+                     and L[j]["box"][0] >= x1 - 2 and abs((L[j]["box"][1] + L[j]["box"][3]) / 2 - yc) <= 0.6 * h
+                     and not _LABEL_LINE.match(L[j]["text"].strip())]
+            if cands:
+                _, j = min(cands)
+                used.add(j)
+                t = t + " " + L[j]["text"].strip()
+        used.add(i)
+        out.append(t)
+    return "\n".join(out)
