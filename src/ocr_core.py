@@ -115,7 +115,31 @@ def rotate_bound(gray, angle):
     return cv2.warpAffine(gray, M, (nw, nh), flags=cv2.INTER_CUBIC, borderValue=255)
 
 
-def ocr_with_orientation(img):
+def _good_words(o, min_conf=70):
+    return sum(c >= min_conf for c in o["confs"])
+
+
+def upscale_if_small(gray, ocr, target_px=24):
+    """Yazı küçükse görüntüyü büyütüp yeniden okur (21 Ekim).
+
+    Tesseract harf yüksekliği ~20-30 piksel olduğunda en iyi çalışır. RVL-CDIP taramalarında kelime yüksekliği
+    7-12 piksel; internetten alınan küçük resimlerde daha da az. Kelime kutularının ortanca yüksekliği
+    hedefin altındaysa görüntü büyütülür; güvenli (>= 70) okunan kelime sayısı artarsa büyütülmüş okuma seçilir.
+    """
+    hs = [b[3] - b[1] for b in ocr["boxes"]]
+    if not hs:
+        med = 0.0
+    else:
+        med = float(np.median(hs)) * gray.shape[0] / 1000.0
+    if med >= target_px * 0.8 and _good_words(ocr) > 0:
+        return gray, ocr, 1.0
+    f = 2.0   # denemelerde x2 en dengelisi: x3 bazı tablo sütunlarını kaybettirdi
+    big = cv2.resize(gray, None, fx=f, fy=f, interpolation=cv2.INTER_CUBIC)
+    o2 = run_ocr(big)
+    return (big, o2, f) if _good_words(o2) > 1.1 * _good_words(ocr) else (gray, ocr, 1.0)
+
+
+def ocr_with_orientation(img, upscale=True):
     """Yan, eğik ya da ters dönmüş sayfayı düzeltip OCR yapar.
 
     21 Ekim: elle değerlendirmede ~77° dönük bir fatura hiç okunamamıştı ("WoRsN"). Yazı satırlarının açısı,
@@ -146,4 +170,7 @@ def ocr_with_orientation(img):
         o = run_ocr(r)
         if score(o) > 1.2 * score(best[1]):
             best = (r, o, ang)
+    if upscale:
+        g2, o2, _ = upscale_if_small(best[0], best[1])
+        best = (g2, o2, best[2])
     return best

@@ -29,9 +29,29 @@ def find_phone(text):
 URL = re.compile(r"\b(?:https?://|www\.)\S+|\b(?:github|linkedin)\.com/\S+", re.I)
 MONTHS = r"(?:jan|feb|mar|apr|may|jun|jul|aug|sep|sept|oct|nov|dec)[a-z]*\.?"
 DATE = re.compile(
-    rf"\b(?:\d{{1,2}}[/.-]\d{{1,2}}[/.-]\d{{2,4}}|{MONTHS}\s+\d{{1,2}},?\s+(?:19|20)\d{{2}}|\d{{1,2}}\s+{MONTHS}\s+(?:19|20)?\d{{2}}|\d{{4}}-\d{{2}}-\d{{2}})\b",
+    rf"\b(?:\d{{1,2}}[/.-]\d{{1,2}}[/.-]\d{{2,4}}|{MONTHS}\s+\d{{1,2}},?\s+(?:19|20)\d{{2}}|"
+    rf"\d{{1,2}}[\s.-]+{MONTHS}[\s.,-]*(?:19|20)?\d{{2}}|\d{{4}}-\d{{2}}-\d{{2}})\b",   # v2: "10.JULY.2014"
     re.I)
-MONEY = re.compile(r"(?:[$€£₺]\s?\d[\d,]*(?:\.\d{2})?|\d[\d,]*\.\d{2}\s?(?:usd|eur|tl|try)?)", re.I)
+
+
+def find_date(text):
+    """İlk geçerli tarih. v2: "70.00.00" gibi gün/ay aralığı dışındaki sayı grupları tarih sayılmaz."""
+    for m in DATE.finditer(text or ""):
+        d = m.group(0).strip()
+        parts = re.split(r"[/.-]", d)
+        if all(p.isdigit() for p in parts) and len(parts) == 3 and len(parts[0]) <= 2:
+            a, b = int(parts[0]), int(parts[1])
+            if not ((1 <= a <= 12 and 1 <= b <= 31) or (1 <= a <= 31 and 1 <= b <= 12)):
+                continue
+        return d
+    return None
+
+
+# v2: Avrupa yazımı (100.000,00) da tutar; "100.000,00" artık "100.00" diye kesilmiyor
+_NUM = r"(?:\d{1,3}(?:\.\d{3})+(?:,\d{2})?|\d{1,3}(?:,\d{3})+(?:\.\d{2})?|\d+(?:[.,]\d{2})?)"
+_NUM_DEC = r"(?:\d{1,3}(?:\.\d{3})+,\d{2}|\d{1,3}(?:,\d{3})+\.\d{2}|\d+[.,]\d{2})"
+_CUR = r"(?:usd|eur|gbp|tl|try)\b"
+MONEY = re.compile(rf"(?<![\d.,])(?:[$€£₺]\s?{_NUM}(?:\s?{_CUR})?|{_NUM_DEC}(?:\s?{_CUR})?|{_NUM}\s?{_CUR})(?![\d]|[.,]\d)", re.I)
 
 DEGREE_WORDS = ("bachelor", "master", "phd", "ph.d", "b.s", "b.sc", "m.s", "m.sc", "b.a", "m.a", "mba",
                 "degree", "engineering", "science", "lisans", "mühendisliği", "muhendisligi")
@@ -205,7 +225,7 @@ def extract_resume(text):
 
 _NOT_COMPANY = ("invoice", "quantity", "description", "price", "amount", "total", "date", "bill to",
                 "ship to", "page", "tax", "qty", "item")
-_CORP = re.compile(r"\b(?:inc|corp|corporation|co|company|ltd|llc|plc|group|gmbh|a\.?ş|ltd\.?\s*şti)\b\.?", re.I)
+_CORP = re.compile(r"\b(?:inc|corp|corporation|co|company|ltd|limited|llc|plc|group|gmbh|a\.?ş|ltd\.?\s*şti)\b\.?", re.I)
 
 
 def _invoice_company(lines):
@@ -240,19 +260,23 @@ def _invoice_amounts(lines):
 def extract_invoice(text):
     text = re.sub(r"(\d)[,.]\s+(\d{3})\b", r"\1,\2", text)   # OCR: '1, 250.00' -> '1,250.00'
     lines = _lines(text)
-    inv_no = _first(re.compile(r"invoice\s*(?:no\.?|number|num|#)\s*[:.]?\s*((?=[A-Z0-9/-]*\d)[A-Z0-9][A-Z0-9/-]{1,20})", re.I), text, 1)
+    inv_no = _first(re.compile(r"invoice\s*(?:no\.?|n0\.?|number|num|#)\s*[:.]?\s*((?=[A-Z0-9/-]*\d)[A-Z0-9][A-Z0-9/-]{1,20})", re.I), text, 1)
+    # v2: önce kesin toplam ifadeleri (net amount, total due ...), sonra genel "total", en son "amount"
     total = None
-    for pat in (r"(?:total\s+amount\s+due|amount\s+due|balance\s+due|grand\s+total|total\s+due|invoice\s+total|total)\b[^\n$\d]{0,20}([$€£]?\s?\d[\d,]*(?:\.\d{2})?)",
-                r"\bamount\b[^\n$\d]{0,15}([$€£]?\s?\d[\d,]*(?:\.\d{2})?)"):
-        m = re.findall(pat, text, re.I)
-        m = [x.strip().rstrip(",.") for x in m if re.search(r"\d\.\d{2}$|\d{3,}", x.strip().rstrip(",."))]
-        if m:
-            total = m[-1]
+    for pat in (r"(?:net\s+amount|total\s+amount\s+due|amount\s+due|balance\s+due|grand\s+total|total\s+due|invoice\s+total|amount\s+payable)",
+                r"\btotal", r"\bamount"):
+        found = []
+        for m in re.finditer(pat + r"\b[^\n$€£\d]{0,20}", text, re.I):
+            mm = MONEY.match(text, m.end()) or MONEY.search(text[m.end():m.end() + 25])
+            if mm:
+                found.append(mm.group(0).strip().rstrip(",."))
+        if found:
+            total = found[-1]
             break
     company = _invoice_company(lines)
     return {
         "fatura_no": inv_no,
-        "tarih": _first(DATE, text),
+        "tarih": _header(text, "date|invoice\\s+date|dated") or find_date(text),
         "firma": company,
         "toplam_tutar": total,
         "tutarlar": _invoice_amounts(lines),
@@ -333,7 +357,7 @@ def extract_email(text):
             if not to and subj_i is not None and subj_i > d_i + 1:
                 to = " ".join(l.strip(" '‘’") for l in lines[d_i + 1:subj_i])[:200]
             body_start = max(body_start or 0, (subj_i + 1) if subj_i is not None else d_i + 1)
-    date = date or _first(DATE, text)
+    date = date or find_date(text)
     # gövde: başlık satırlarından sonra
     if body_start is None:
         head_idx = [k for k, l in enumerate(lines[:20]) if _HEAD_PAT.match(l)]
@@ -364,7 +388,7 @@ def extract_form(text):
     return {
         "baslik": title,
         "alanlar": pairs or None,
-        "tarih": _first(DATE, text),
+        "tarih": find_date(text),
     }
 
 
@@ -399,7 +423,7 @@ def extract_letter(text):
         recipient = next((l for l in window if _looks_like_name(l) and l != org), None)
     return {
         "kurum": org,
-        "tarih": _first(DATE, text),
+        "tarih": find_date(text),
         "alici": recipient,
         "hitap": salute,
         "konu": _header(text, "re|subject|subj"),
@@ -417,7 +441,7 @@ def extract_news(text):
     return {
         "baslik": title,
         "yer": _first(_DATELINE, text, 1),
-        "tarih": _first(DATE, text),
+        "tarih": find_date(text),
         "kisiler": _ents(text, {"PERSON"})[:4] or None,
         "kurumlar": _ents(text, {"ORG"})[:4] or None,
     }
