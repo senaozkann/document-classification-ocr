@@ -1,0 +1,111 @@
+belge,tur,alan,deger,karar,karar_v2
+images/test/email/test_email_00143.png,email,gonderen,"Ostern, Eric on Thu, Apr 4, 1996 10:45 AM",Doğru,Doğru
+images/test/email/test_email_00143.png,email,alici,"Portnoy, Sharon",Doğru,Doğru
+images/test/email/test_email_00143.png,email,konu,FW: NYC Rest. Contacts,Doğru,Doğru
+images/test/email/test_email_00143.png,email,tarih,"Apr 4, 1996",Doğru,Doğru
+images/test/email/test_email_00143.png,email,e_postalar,,Belgede yok,Belgede yok
+images/test/email/test_email_00143.png,email,govde_ozeti,"Ce: Bayliss, Elissa; Culley, Liz; Young, Tracy Hi Sharon: Thad Elissa follow-up on obtaining info from the restaurants b",Doğru,Doğru
+images/test/email/test_email_00124.png,email,gonderen,,Kaçırıldı,Doğru
+images/test/email/test_email_00124.png,email,alici,,Kaçırıldı,Doğru
+images/test/email/test_email_00124.png,email,konu,Washington Post Story,Doğru,Doğru
+images/test/email/test_email_00124.png,email,tarih,"April 29, 1998",Doğru,Doğru
+images/test/email/test_email_00124.png,email,e_postalar,,Belgede yok,Belgede yok
+images/test/email/test_email_00124.png,email,govde_ozeti,"Carothers, Paul Wednesday, April 29, 1998 6:07 PM Knuth, Kathy S. (MS Mail); Dennis, Darienne; Ostronic, John;",Yanlış,Doğru
+images/test/email/test_email_00159.png,email,gonderen,ebh@caunxi.ctd.crnl.gov (B4 Harris),Doğru,Doğru
+images/test/email/test_email_00159.png,email,alici,cvrGdsunix?.derd.crnl.gov,Doğru,Doğru
+images/test/email/test_email_00159.png,email,konu,Tobacco Funding Question,Doğru,Doğru
+images/test/email/test_email_00159.png,email,tarih,"Tue, 26 Mar 1996 17:40:32 -0500",Doğru,Doğru
+images/test/email/test_email_00159.png,email,e_postalar,"ebh@caunxi.ctd.crnl.gov, sikkavk@dsunix2.dsrd.ornl.cov, _vks@ornl.gov",Doğru,Doğru
+images/test/email/test_email_00159.png,email,govde_ozeti,"Ed_Harris,3/26/96 4:40 PM,Tobacco Funding Question ce: sikkavk@dsunix2.dsrd.ornl.cov vee,",Yanlış,Doğru
+images/test/email/test_email_00178.png,email,gonderen,,Belgede yok,Belgede yok
+images/test/email/test_email_00178.png,email,alici,,Belgede yok,Belgede yok
+images/test/email/test_email_00178.png,email,konu,,Belgede yok,Belgede yok
+images/test/email/test_email_00178.png,email,tarih,,Belgede yok,Belgede yok
+images/test/email/test_email_00178.png,email,e_postalar,,Belgede yok,Belgede yok
+images/test/email/test_email_00178.png,email,govde_ozeti,"52021 9188 yO 8 Buunjoeynuey spuesa ""YO ""BuURDeINUEN SUSHPOUIERD MUAANG",Yanlış,Yanlış
+images/test/email/test_email_00100.png,email,gonderen,Date:,Yanlış,Doğru
+images/test/email/test_email_00100.png,email,alici,co:,Yanlış,Doğru
+images/test/email/test_email_00100.png,email,konu,To:,Yanlış,Doğru
+images/test/email/test_email_00100.png,email,tarih,Subject:,Yanlış,Doğru
+images/test/email/test_email_00100.png,email,e_postalar,,Belgede yok,Belgede yok
+images/test/email/test_email_00100.png,email,govde_ozeti,"co: 2071557599 Note for Knuff, Ketrina",Yanlış,Doğru
+images/test/invoice/test_invoice_00263.png,invoice,fatura_no,,Belgede yok,Belgede yok
+images/test/invoice/test_invoice_00263.png,invoice,tarih,,Kaçırıldı,Kaçırıldı
+images/test/invoice/test_invoice_00263.png,invoice,firma,PHILIP MORRIS MANAGEMENT CORPORATION,Yanlış,Yanlış
+images/test/invoice/test_invoice_00263.png,invoice,toplam_tutar,,Kaçırıldı,Kaçırıldı
+images/test/invoice/test_invoice_00263.png,invoice,tutarlar,1723.58,Yanlış,Yanlış
+images/test/invoice/test_invoice_00241.png,invoice,fatura_no,,Kaçırıldı,Kaçırıldı
+images/test/invoice/test_invoice_00241.png,invoice,tarih,,Kaçırıldı,Kaçırıldı
+images/test/invoice/test_invoice_00241.png,invoice,firma,WoRsN,Yanlış,Yanlış
+images/test/invoice/test_invoice_00241.png,invoice,toplam_tutar,,Kaçırıldı,Kaçırıldı
+images/test/invoice/test_invoice_00241.png,invoice,tutarlar,,Kaçırıldı,Kaçırıldı
+images/test/invoice/test_invoice_00296.png,invoice,fatura_no,,Belgede yok,Belgede yok
+images/test/invoice/test_invoice_00296.png,invoice,tarih,1/24/89,Doğru,Doğru
+images/test/invoice/test_invoice_00296.png,invoice,firma,"PROMOTIONAL MARKETING, INC",Doğru,Doğru
+images/test/invoice/test_invoice_00296.png,invoice,toplam_tutar,,Belgede yok,Belgede yok
+images/test/invoice/test_invoice_00296.png,invoice,tutarlar,"$25,500, $17,400,, $37,950",Doğru,Doğru
+images/test/invoice/test_invoice_00218.png,invoice,fatura_no,,Kaçırıldı,Kaçırıldı
+images/test/invoice/test_invoice_00218.png,invoice,tarih,02/18/94,Doğru,Doğru
+images/test/invoice/test_invoice_00218.png,invoice,firma,"Brand Precielon Services, Inc. 1so0a761 it",Doğru,Doğru
+images/test/invoice/test_invoice_00218.png,invoice,toplam_tutar,"1,130.00",Doğru,Doğru
+images/test/invoice/test_invoice_00218.png,invoice,tutarlar,"10.00 , 50.00 , 500.00 , 10.00 , 22.00",Yanlış,Doğru
+images/test/invoice/test_invoice_00298.png,invoice,fatura_no,,Belgede yok,Belgede yok
+images/test/invoice/test_invoice_00298.png,invoice,tarih,November 8 00,Yanlış,Yanlış
+images/test/invoice/test_invoice_00298.png,invoice,firma,ANYNEX Company,Doğru,Doğru
+images/test/invoice/test_invoice_00298.png,invoice,toplam_tutar,$956.83,Doğru,Doğru
+images/test/invoice/test_invoice_00298.png,invoice,tutarlar,"$956.83, 9638.67 , 5638.67 , $5.10, 313.06",Yanlış,Doğru
+images/test/resume/test_resume_00341.png,resume,ad_soyad,BIOGRAPHICAL SKETCH,Yanlış,Kaçırıldı
+images/test/resume/test_resume_00341.png,resume,universite,"Tel-Aviv University, Tel-Aviv, Israel B.Sc. [1966-1969 Biology",Doğru,Doğru
+images/test/resume/test_resume_00341.png,resume,bolum_derece,"Tel-Aviv University, Tel-Aviv, Israel Ph.D. [1973-1977 Endocrinology of Reproductic:",Doğru,Doğru
+images/test/resume/test_resume_00341.png,resume,e_posta,,Belgede yok,Belgede yok
+images/test/resume/test_resume_00341.png,resume,telefon,30502-30509,Yanlış,Belgede yok
+images/test/resume/test_resume_00341.png,resume,beceriler,,Belgede yok,Belgede yok
+images/test/resume/test_resume_00323.png,resume,ad_soyad,EDWARD DIALA,Doğru,Doğru
+images/test/resume/test_resume_00323.png,resume,universite,Harvard University Special Student in Biology 1972-4,Doğru,Doğru
+images/test/resume/test_resume_00323.png,resume,bolum_derece,Institution Subject & Degree Year,Yanlış,Doğru
+images/test/resume/test_resume_00323.png,resume,e_posta,,Belgede yok,Belgede yok
+images/test/resume/test_resume_00323.png,resume,telefon,50145702,Yanlış,Belgede yok
+images/test/resume/test_resume_00323.png,resume,beceriler,,Belgede yok,Belgede yok
+images/test/resume/test_resume_00356.png,resume,ad_soyad,ANN KATHERINE DALY,Doğru,Doğru
+images/test/resume/test_resume_00356.png,resume,universite,"BA in Biochemistry (1978, University of Dublin); PhD in Biochemistry (1982,",Doğru,Doğru
+images/test/resume/test_resume_00356.png,resume,bolum_derece,,Kaçırıldı,Doğru
+images/test/resume/test_resume_00356.png,resume,e_posta,,Belgede yok,Belgede yok
+images/test/resume/test_resume_00356.png,resume,telefon,,Belgede yok,Belgede yok
+images/test/resume/test_resume_00356.png,resume,beceriler,,Belgede yok,Belgede yok
+images/test/resume/test_resume_00374.png,resume,ad_soyad,Cecilia M. Giachelli Research,Doğru,Doğru
+images/test/resume/test_resume_00374.png,resume,universite,"University of Washington, Seattle, WA Phb, 1987 Pharmacolo",Doğru,Doğru
+images/test/resume/test_resume_00374.png,resume,bolum_derece,American Association for the Advancement of Science,Yanlış,Doğru
+images/test/resume/test_resume_00374.png,resume,e_posta,,Belgede yok,Belgede yok
+images/test/resume/test_resume_00374.png,resume,telefon,50304562,Yanlış,Belgede yok
+images/test/resume/test_resume_00374.png,resume,beceriler,,Belgede yok,Belgede yok
+images/test/resume/test_resume_00301.png,resume,ad_soyad,Pose Bs,Yanlış,Doğru
+images/test/resume/test_resume_00301.png,resume,universite,"Metabolism, Baylor College of Medicine",Yanlış,Doğru
+images/test/resume/test_resume_00301.png,resume,bolum_derece,"Key personnel typical wil include all Indviduls wih doctoral or other professional degrees, btn some projects wil includ",Yanlış,Kaçırıldı
+images/test/resume/test_resume_00301.png,resume,e_posta,,Belgede yok,Belgede yok
+images/test/resume/test_resume_00301.png,resume,telefon,,Belgede yok,Belgede yok
+images/test/resume/test_resume_00301.png,resume,beceriler,,Belgede yok,Belgede yok
+images/test/scientific_publication/test_scientific_publication_00046.png,scientific_publication,baslik,Printed i Great Brin,Yanlış,Doğru
+images/test/scientific_publication/test_scientific_publication_00046.png,scientific_publication,yazarlar,DAVID 3,Yanlış,Doğru
+images/test/scientific_publication/test_scientific_publication_00046.png,scientific_publication,ozet,,Belgede yok,Belgede yok
+images/test/scientific_publication/test_scientific_publication_00046.png,scientific_publication,anahtar_kelimeler,,Belgede yok,Belgede yok
+images/test/scientific_publication/test_scientific_publication_00046.png,scientific_publication,kaynakca_var,False,Belgede yok,Belgede yok
+images/test/scientific_publication/test_scientific_publication_00057.png,scientific_publication,baslik,What the Physician Should Know About Tobacco,Doğru,Doğru
+images/test/scientific_publication/test_scientific_publication_00057.png,scientific_publication,yazarlar,"WALTER A. BASTEDO, tobaccos",Doğru,Doğru
+images/test/scientific_publication/test_scientific_publication_00057.png,scientific_publication,ozet,,Belgede yok,Belgede yok
+images/test/scientific_publication/test_scientific_publication_00057.png,scientific_publication,anahtar_kelimeler,,Belgede yok,Belgede yok
+images/test/scientific_publication/test_scientific_publication_00057.png,scientific_publication,kaynakca_var,False,Belgede yok,Belgede yok
+images/test/scientific_publication/test_scientific_publication_00030.png,scientific_publication,baslik,"Sondereudh us: eitge to Tabklordhng"" Band 8- Heb 7 Ohtake 976",Yanlış,Doğru
+images/test/scientific_publication/test_scientific_publication_00030.png,scientific_publication,yazarlar,"Cytrel, Dav Git Vidroy",Yanlış,Kaçırıldı
+images/test/scientific_publication/test_scientific_publication_00030.png,scientific_publication,ozet,,Belgede yok,Belgede yok
+images/test/scientific_publication/test_scientific_publication_00030.png,scientific_publication,anahtar_kelimeler,,Belgede yok,Belgede yok
+images/test/scientific_publication/test_scientific_publication_00030.png,scientific_publication,kaynakca_var,False,Belgede yok,Belgede yok
+images/test/scientific_publication/test_scientific_publication_00012.png,scientific_publication,baslik,"PN LEE, w+ FIR RED Ntel cit Gees",Yanlış,Doğru
+images/test/scientific_publication/test_scientific_publication_00012.png,scientific_publication,yazarlar,"LEE, GP Se, Sretrcewn, Wie Lis",Yanlış,Yanlış
+images/test/scientific_publication/test_scientific_publication_00012.png,scientific_publication,ozet,,Kaçırıldı,Kaçırıldı
+images/test/scientific_publication/test_scientific_publication_00012.png,scientific_publication,anahtar_kelimeler,,Belgede yok,Belgede yok
+images/test/scientific_publication/test_scientific_publication_00012.png,scientific_publication,kaynakca_var,False,Belgede yok,Belgede yok
+images/test/scientific_publication/test_scientific_publication_00051.png,scientific_publication,baslik,TOBACCO SHOKE AND THE PULMONARY ALVEOLAR MACROPHAGE,Doğru,Doğru
+images/test/scientific_publication/test_scientific_publication_00051.png,scientific_publication,yazarlar,"DRATH, P. DAVIES, M. L. KARNOVSKY, Beth Israel Hospital Boston, Teceresrtct",Doğru,Doğru
+images/test/scientific_publication/test_scientific_publication_00051.png,scientific_publication,ozet,,Belgede yok,Belgede yok
+images/test/scientific_publication/test_scientific_publication_00051.png,scientific_publication,anahtar_kelimeler,,Belgede yok,Belgede yok
+images/test/scientific_publication/test_scientific_publication_00051.png,scientific_publication,kaynakca_var,False,Belgede yok,Belgede yok
