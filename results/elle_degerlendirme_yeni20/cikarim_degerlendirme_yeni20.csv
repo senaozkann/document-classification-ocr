@@ -1,0 +1,111 @@
+belge_no,belge,tur,alan,deger,karar
+1,images/test/email/test_email_00109.png,email,gonderen,"gan, Karen M.",Doğru
+1,images/test/email/test_email_00109.png,email,alici,"Cooper, David: Pfeil, Michael E.; Lattanzio, Ted; Borelli, Thomas; Mciittrick, Beverly; Cemovale, Mary E.; Mohrmann, Christine",Doğru
+1,images/test/email/test_email_00109.png,email,konu,YSP-SGA-PA Plan Implementation,Doğru
+1,images/test/email/test_email_00109.png,email,tarih,"Tuesday, March 02, 1999 6:55 PM",Doğru
+1,images/test/email/test_email_00109.png,email,e_postalar,— (bulunamadı),Belgede yok
+1,images/test/email/test_email_00109.png,email,govde_ozeti,"In taking a look at our YSP-SGA-PA Plan, there are eight clear and distinct pieces that need to be implemented. You guys are the eight folks that have been chosen to lead the teams to implement those",Doğru
+2,images/test/email/test_email_00167.png,email,gonderen,— (bulunamadı),Belgede yok
+2,images/test/email/test_email_00167.png,email,alici,— (bulunamadı),Belgede yok
+2,images/test/email/test_email_00167.png,email,konu,— (bulunamadı),Belgede yok
+2,images/test/email/test_email_00167.png,email,tarih,— (bulunamadı),Belgede yok
+2,images/test/email/test_email_00167.png,email,e_postalar,— (bulunamadı),Belgede yok
+2,images/test/email/test_email_00167.png,email,govde_ozeti,BRAND Cigarette Spec Change Description 1D Revision WINSTON 100 TAXABLE PUERTO RICO 2001257 AA New Cigarette Specification,Yanlış
+3,images/test/email/test_email_00198.png,email,gonderen,"Chaikin, Karen",Doğru
+3,images/test/email/test_email_00198.png,email,alici,"Fernandez, Henry L.; Dillard, Jack",Doğru
+3,images/test/email/test_email_00198.png,email,konu,RE: Tobacco Use Reduction & Teenage Smoking Prevention Network of TX,Doğru
+3,images/test/email/test_email_00198.png,email,tarih,"Friday, July 16, 1999 7:45 AM",Doğru
+3,images/test/email/test_email_00198.png,email,e_postalar,— (bulunamadı),Belgede yok
+3,images/test/email/test_email_00198.png,email,govde_ozeti,"Henry, Thanks for following up with Bob. Jack: If you or Weldon have anything new to add that Henry should be aware of, please let us know.",Doğru
+4,images/test/email/test_email_00132.png,email,gonderen,"Cox, Mickie O.",Doğru
+4,images/test/email/test_email_00132.png,email,alici,"Bledsoe, Maude C.; Bowman, Cyrus S.; Hendrickson, Selina; Montgomery, Nancy",Doğru
+4,images/test/email/test_email_00132.png,email,konu,DORALFM.XLS,Doğru
+4,images/test/email/test_email_00132.png,email,tarih,8/22/1997,Doğru
+4,images/test/email/test_email_00132.png,email,e_postalar,— (bulunamadı),Belgede yok
+4,images/test/email/test_email_00132.png,email,govde_ozeti,Last Touched Date: Sent Date: 1997-Aug-22 11:17:00 Received Date: 1997-Aug-22 11:17:00,Yanlış
+5,images/test/email/test_email_00184.png,email,gonderen,— (bulunamadı),Kaçırıldı
+5,images/test/email/test_email_00184.png,email,alici,— (bulunamadı),Kaçırıldı
+5,images/test/email/test_email_00184.png,email,konu,— (bulunamadı),Kaçırıldı
+5,images/test/email/test_email_00184.png,email,tarih,"Tuesday, March 21, 2000 353 PM",Doğru
+5,images/test/email/test_email_00184.png,email,e_postalar,— (bulunamadı),Belgede yok
+5,images/test/email/test_email_00184.png,email,govde_ozeti,"Clare Purcell, David Tovar, Oexdira Barnes, Ellen Micenko, Jack Macauley, James Lindheim, Johan Puotia, John Sorrells, LaTessha Larkins, Laune Guzzinab, Liana Esposito, Mike York, Peggy Roberts, Susan",Yanlış
+6,images/test/invoice/test_invoice_00295.png,invoice,fatura_no,— (bulunamadı),Belgede yok
+6,images/test/invoice/test_invoice_00295.png,invoice,tarih,"Jan 26, 2000",Doğru
+6,images/test/invoice/test_invoice_00295.png,invoice,firma,Television/Flim/Theatre,Yanlış
+6,images/test/invoice/test_invoice_00295.png,invoice,toplam_tutar,$300.00,Doğru
+6,images/test/invoice/test_invoice_00295.png,invoice,tutarlar,"$150.00, $300.00",Doğru
+7,images/test/invoice/test_invoice_00208.png,invoice,fatura_no,— (bulunamadı),Kaçırıldı
+7,images/test/invoice/test_invoice_00208.png,invoice,tarih,03/25/88,Doğru
+7,images/test/invoice/test_invoice_00208.png,invoice,firma,TIME & LIFE BUILDING ROCKEFELLER CENTER,Yanlış
+7,images/test/invoice/test_invoice_00208.png,invoice,toplam_tutar,— (bulunamadı),Kaçırıldı
+7,images/test/invoice/test_invoice_00208.png,invoice,tutarlar,— (bulunamadı),Kaçırıldı
+8,images/test/invoice/test_invoice_00274.png,invoice,fatura_no,— (bulunamadı),Kaçırıldı
+8,images/test/invoice/test_invoice_00274.png,invoice,tarih,"July 24, 1989",Doğru
+8,images/test/invoice/test_invoice_00274.png,invoice,firma,NANCY,Yanlış
+8,images/test/invoice/test_invoice_00274.png,invoice,toplam_tutar,— (bulunamadı),Kaçırıldı
+8,images/test/invoice/test_invoice_00274.png,invoice,tutarlar,"$1000.00, $1189.00",Doğru
+9,images/test/invoice/test_invoice_00224.png,invoice,fatura_no,— (bulunamadı),Kaçırıldı
+9,images/test/invoice/test_invoice_00224.png,invoice,tarih,— (bulunamadı),Kaçırıldı
+9,images/test/invoice/test_invoice_00224.png,invoice,firma,California All Starts,Doğru
+9,images/test/invoice/test_invoice_00224.png,invoice,toplam_tutar,— (bulunamadı),Kaçırıldı
+9,images/test/invoice/test_invoice_00224.png,invoice,tutarlar,"$9, $3,000.00",Yanlış
+10,images/test/invoice/test_invoice_00289.png,invoice,fatura_no,— (bulunamadı),Belgede yok
+10,images/test/invoice/test_invoice_00289.png,invoice,tarih,— (bulunamadı),Belgede yok
+10,images/test/invoice/test_invoice_00289.png,invoice,firma,MEMO: F,Yanlış
+10,images/test/invoice/test_invoice_00289.png,invoice,toplam_tutar,— (bulunamadı),Belgede yok
+10,images/test/invoice/test_invoice_00289.png,invoice,tutarlar,— (bulunamadı),Belgede yok
+11,images/test/resume/test_resume_00309.png,resume,ad_soyad,NSA NATIONAL BOARD OF,Yanlış
+11,images/test/resume/test_resume_00309.png,resume,universite,Clairmont Institute,Yanlış
+11,images/test/resume/test_resume_00309.png,resume,bolum_derece,— (bulunamadı),Belgede yok
+11,images/test/resume/test_resume_00309.png,resume,e_posta,— (bulunamadı),Belgede yok
+11,images/test/resume/test_resume_00309.png,resume,telefon,— (bulunamadı),Belgede yok
+11,images/test/resume/test_resume_00309.png,resume,beceriler,— (bulunamadı),Belgede yok
+12,images/test/resume/test_resume_00367.png,resume,ad_soyad,"Richard Thomas Maziarz, M.D.",Doğru
+12,images/test/resume/test_resume_00367.png,resume,universite,"University of Pennsytvania, Philadelphia, PA BS. i 1978 Blology",Doğru
+12,images/test/resume/test_resume_00367.png,resume,bolum_derece,"1974 B.A cum laude, University of Pennsylvania",Yanlış
+12,images/test/resume/test_resume_00367.png,resume,e_posta,— (bulunamadı),Belgede yok
+12,images/test/resume/test_resume_00367.png,resume,telefon,— (bulunamadı),Belgede yok
+12,images/test/resume/test_resume_00367.png,resume,beceriler,— (bulunamadı),Belgede yok
+13,images/test/resume/test_resume_00398.png,resume,ad_soyad,Lewis Hartley Romer,Doğru
+13,images/test/resume/test_resume_00398.png,resume,universite,"Rufus Choate Scholar, Dartmouth College, Hanover, N.H., 1974-77",Doğru
+13,images/test/resume/test_resume_00398.png,resume,bolum_derece,DEGREE,Yanlış
+13,images/test/resume/test_resume_00398.png,resume,e_posta,— (bulunamadı),Belgede yok
+13,images/test/resume/test_resume_00398.png,resume,telefon,— (bulunamadı),Belgede yok
+13,images/test/resume/test_resume_00398.png,resume,beceriler,— (bulunamadı),Belgede yok
+14,images/test/resume/test_resume_00332.png,resume,ad_soyad,PROFESSIOMAL BIOGRAPHY OF IRWIN,Yanlış
+14,images/test/resume/test_resume_00332.png,resume,universite,"1986 1987 Alfred University, Alfred, Mew York",Yanlış
+14,images/test/resume/test_resume_00332.png,resume,bolum_derece,rand Head of Behavioral science and,Yanlış
+14,images/test/resume/test_resume_00332.png,resume,e_posta,— (bulunamadı),Belgede yok
+14,images/test/resume/test_resume_00332.png,resume,telefon,— (bulunamadı),Belgede yok
+14,images/test/resume/test_resume_00332.png,resume,beceriler,— (bulunamadı),Belgede yok
+15,images/test/resume/test_resume_00384.png,resume,ad_soyad,Amon Ruth,Doğru
+15,images/test/resume/test_resume_00384.png,resume,universite,"Hebrew University, Jerusalem, Israel. M.Sc. 1955 Biochemistry & Org. Chem.",Doğru
+15,images/test/resume/test_resume_00384.png,resume,bolum_derece,(see also publications in co-authorship with B. Schechter and M. Wilchek),Yanlış
+15,images/test/resume/test_resume_00384.png,resume,e_posta,— (bulunamadı),Belgede yok
+15,images/test/resume/test_resume_00384.png,resume,telefon,— (bulunamadı),Belgede yok
+15,images/test/resume/test_resume_00384.png,resume,beceriler,— (bulunamadı),Belgede yok
+16,images/test/scientific_publication/test_scientific_publication_00005.png,scientific_publication,baslik,I AlNovel Method for the Isolation and Quantitative Analysis of Nicotine and,Yanlış
+16,images/test/scientific_publication/test_scientific_publication_00005.png,scientific_publication,yazarlar,"Caton, Analytical Chemistry Division, Oak Ridge National",Yanlış
+16,images/test/scientific_publication/test_scientific_publication_00005.png,scientific_publication,ozet,— (bulunamadı),Kaçırıldı
+16,images/test/scientific_publication/test_scientific_publication_00005.png,scientific_publication,anahtar_kelimeler,— (bulunamadı),Belgede yok
+16,images/test/scientific_publication/test_scientific_publication_00005.png,scientific_publication,kaynakca_var,False,Belgede yok
+17,images/test/scientific_publication/test_scientific_publication_00070.png,scientific_publication,baslik,Characterization of the Complex Formed between an 18-Amino Acid Peptide Fragment of the a-Subunit,Yanlış
+17,images/test/scientific_publication/test_scientific_publication_00070.png,scientific_publication,yazarlar,o-Bungarotoxin®,Yanlış
+17,images/test/scientific_publication/test_scientific_publication_00070.png,scientific_publication,ozet,— (bulunamadı),Belgede yok
+17,images/test/scientific_publication/test_scientific_publication_00070.png,scientific_publication,anahtar_kelimeler,— (bulunamadı),Belgede yok
+17,images/test/scientific_publication/test_scientific_publication_00070.png,scientific_publication,kaynakca_var,False,Belgede yok
+18,images/test/scientific_publication/test_scientific_publication_00090.png,scientific_publication,baslik,"The Bloodless Determination of av-O, Saturation Difference from Expiratory O, and CO, Curves",Doğru
+18,images/test/scientific_publication/test_scientific_publication_00090.png,scientific_publication,yazarlar,"U. Smide; G. v. Nieding, ind H. Lillgen",Doğru
+18,images/test/scientific_publication/test_scientific_publication_00090.png,scientific_publication,ozet,— (bulunamadı),Belgede yok
+18,images/test/scientific_publication/test_scientific_publication_00090.png,scientific_publication,anahtar_kelimeler,— (bulunamadı),Belgede yok
+18,images/test/scientific_publication/test_scientific_publication_00090.png,scientific_publication,kaynakca_var,False,Belgede yok
+19,images/test/scientific_publication/test_scientific_publication_00008.png,scientific_publication,baslik,Effect of Chronic Cigarette Smoke Exposure on Lung Clearance of Tracer Particles Inhaled by Rats',Doğru
+19,images/test/scientific_publication/test_scientific_publication_00008.png,scientific_publication,yazarlar,"G. L. Fincn, K. J. NiKULA, B. T. CHEN, E. B. Barr, I.-Y. CHANG",Doğru
+19,images/test/scientific_publication/test_scientific_publication_00008.png,scientific_publication,ozet,— (bulunamadı),Kaçırıldı
+19,images/test/scientific_publication/test_scientific_publication_00008.png,scientific_publication,anahtar_kelimeler,— (bulunamadı),Belgede yok
+19,images/test/scientific_publication/test_scientific_publication_00008.png,scientific_publication,kaynakca_var,False,Belgede yok
+20,images/test/scientific_publication/test_scientific_publication_00017.png,scientific_publication,baslik,COFFEE AND CANCER OF THE PANCREAS,Doğru
+20,images/test/scientific_publication/test_scientific_publication_00017.png,scientific_publication,yazarlar,"Buias MacManos. M.D, Sizata Yen",Yanlış
+20,images/test/scientific_publication/test_scientific_publication_00017.png,scientific_publication,ozet,— (bulunamadı),Kaçırıldı
+20,images/test/scientific_publication/test_scientific_publication_00017.png,scientific_publication,anahtar_kelimeler,— (bulunamadı),Belgede yok
+20,images/test/scientific_publication/test_scientific_publication_00017.png,scientific_publication,kaynakca_var,False,Belgede yok
