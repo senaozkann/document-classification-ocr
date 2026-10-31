@@ -116,7 +116,7 @@ def dict_ratio(text):
 #   1. aşama: kelime alan sözlüğündeyse dokunulmaz (korunur)
 #   2. aşama: alan kelimesine 1 harf uzaklıktaysa ona düzeltilir (ör. "DNAs" değil, "tumar" → "tumor")
 #   3. kalanlar genel sözlükle düzeltilir (eski yöntem)
-# Yaygın OCR hataları ("wih", "fom") her belge türünde geçtiği için yoğunlaşma şartını geçemez, alan sözlüğüne girmez.
+# Yaygın OCR hataları ("wih", "fom", "folowing") ve birleşik kelimeler ("ofthe") alan sözlüğüne alınmaz (_looks_like_ocr_error).
 
 def build_domain_dictionary(texts, labels, min_docs=5, min_share=0.6):
     """Alan sözlüğü: {kelime: belge sayısı}. Sadece train metinleri verilmelidir.
@@ -124,7 +124,7 @@ def build_domain_dictionary(texts, labels, min_docs=5, min_share=0.6):
     Şartlar: (1) genel sözlükte yok, (2) en az `min_docs` belgede geçiyor,
     (3) geçtiği belgelerin en az `min_share` kadarı tek bir türde (alan terimi; OCR hatası değil).
     """
-    _load()
+    sym = _load()
     per_word = {}
     for t, lab in zip(texts, labels):
         for w in {w.lower() for w in re.findall(r"[A-Za-z]+", t or "") if len(w) >= 3}:
@@ -133,9 +133,21 @@ def build_domain_dictionary(texts, labels, min_docs=5, min_share=0.6):
     out = {}
     for w, c in per_word.items():
         n = sum(c.values())
-        if n >= min_docs and max(c.values()) / n >= min_share:
+        if n >= min_docs and max(c.values()) / n >= min_share and not _looks_like_ocr_error(w, sym):
             out[w] = n
     return out
+
+
+def _looks_like_ocr_error(w, sym, common=5e7):
+    """Alan terimi değil, sık bir kelimenin OCR hatası mı?
+    (1) Genel sözlükte ÇOK SIK geçen bir kelimeye 1 harf uzaklıkta: wih → with, folowing → following.
+        (DNA → dan, NIH → nil gibi yakın kelimeler o kadar sık değildir; DNA alan terimi olarak kalır.)
+    (2) İki sık kelimenin birleşmesi: ofthe = of + the, inthe = in + the (biochem = bio + chem değil).
+    """
+    sug = sym.lookup(w, Verbosity.TOP, max_edit_distance=1)
+    if sug and sug[0].distance == 1 and sug[0].count >= common:
+        return True
+    return any(_WORDS.get(w[:i], 0) >= common and _WORDS.get(w[i:], 0) >= common for i in range(2, len(w) - 1))
 
 
 class TwoStageFixer:
