@@ -1,0 +1,4 @@
+aşama,geçerli kelime E-posta (%),Bilimsel makale (%),Fatura (%),CV (%),ortalama (%),düzeltme sayısı,bozulan alan kelimesi,test acc kelime TF-IDF (%),test acc karakter TF-IDF (%)
+1 · Ham OCR,81.4,71.9,59.1,81.7,73.5,0,0,93.25,93.00
+2 · Genel sözlük,95.4,92.8,85.2,95.3,92.2,88654,6927,93.00,93.25
+3 · İki aşamalı sözlük (genel + alan),95.5,92.8,85.3,95.4,92.2,82112,0,93.00,92.75

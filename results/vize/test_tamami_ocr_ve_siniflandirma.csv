@@ -1,0 +1,6 @@
+sınıf,test belgesi,OCR okuyamadı,OCR okudu,doğru,yanlış,başarı okunanlarda (%),başarı tüm test (%)
+E-posta,100,0,100,92,8,92.0,92.0
+Bilimsel makale,100,2,98,89,9,90.8,89.0
+Fatura,100,1,99,99,0,100.0,100.0
+CV,100,0,100,93,7,93.0,93.0
+TOPLAM,400,3,397,373,24,94.0,93.5

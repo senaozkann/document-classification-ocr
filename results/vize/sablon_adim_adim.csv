@@ -1,0 +1,14 @@
+adım,CV şablonu,accuracy (%),CV F1,makale → CV hatası
+1,university/college,67.2,0.770,37
+2,+ research,62.7,0.696,51
+3,+ yıl aralığı,66.2,0.742,40
+4,+ education,70.8,0.805,26
+5,+ experience,71.0,0.809,25
+6,+ degree,70.0,0.789,32
+7,+ publications/references,73.0,0.822,24
+8,+ born/birth,74.2,0.865,20
+9,+ biographical sketch/cv,74.2,0.865,20
+10,+ professor,74.2,0.865,20
+11,+ position title,74.8,0.873,18
+12,+ present,73.8,0.861,22
+13,tüm ifadeler + veriden ağırlık,76.5,0.900,10
