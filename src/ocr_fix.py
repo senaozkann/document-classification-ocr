@@ -107,3 +107,85 @@ def dict_ratio(text):
     _load()
     toks = [t.lower() for t in re.findall(r"[A-Za-z]+", text or "") if len(t) >= 3]
     return sum(t in _WORDS for t in toks) / len(toks) if toks else 0.0
+
+
+# ---------------------------------------------------------------- iki aşamalı sözlük (22 Ekim danışman isteği)
+# Genel İngilizce sözlük bilimsel terimleri tanımadığı için onları "düzeltiyordu" (DNA → DAN, tumor → tutor).
+# Çözüm: ikinci bir ALAN SÖZLÜĞÜ. Train belgelerinde sık geçen ama genel sözlükte olmayan, tek bir belge
+# türünde yoğunlaşan kelimeler (DNA, PhD, NIH, tumor ...) alan sözlüğüne alınır.
+#   1. aşama: kelime alan sözlüğündeyse dokunulmaz (korunur)
+#   2. aşama: alan kelimesine 1 harf uzaklıktaysa ona düzeltilir (ör. "DNAs" değil, "tumar" → "tumor")
+#   3. kalanlar genel sözlükle düzeltilir (eski yöntem)
+# Yaygın OCR hataları ("wih", "fom") her belge türünde geçtiği için yoğunlaşma şartını geçemez, alan sözlüğüne girmez.
+
+def build_domain_dictionary(texts, labels, min_docs=5, min_share=0.6):
+    """Alan sözlüğü: {kelime: belge sayısı}. Sadece train metinleri verilmelidir.
+
+    Şartlar: (1) genel sözlükte yok, (2) en az `min_docs` belgede geçiyor,
+    (3) geçtiği belgelerin en az `min_share` kadarı tek bir türde (alan terimi; OCR hatası değil).
+    """
+    _load()
+    per_word = {}
+    for t, lab in zip(texts, labels):
+        for w in {w.lower() for w in re.findall(r"[A-Za-z]+", t or "") if len(w) >= 3}:
+            if w not in _WORDS:
+                per_word.setdefault(w, Counter())[lab] += 1
+    out = {}
+    for w, c in per_word.items():
+        n = sum(c.values())
+        if n >= min_docs and max(c.values()) / n >= min_share:
+            out[w] = n
+    return out
+
+
+class TwoStageFixer:
+    """Genel sözlük + alan sözlüğü ile düzeltme. `correct_text` ile aynı arayüz."""
+
+    def __init__(self, domain):
+        _load()
+        self.domain = dict(domain)
+        self.dsym = SymSpell(max_dictionary_edit_distance=1, prefix_length=7)
+        for w, c in self.domain.items():
+            self.dsym.create_dictionary_entry(w, c)
+
+    def correct_word(self, word, line_start=False):
+        low = word.lower()
+        if low in self.domain:
+            return word, None                                    # alan kelimesi korunur
+        if len(low) >= 5 and low.isalpha() and low not in _WORDS:
+            sug = self.dsym.lookup(low, Verbosity.TOP, max_edit_distance=1)
+            if sug and sug[0].term != low:
+                return _match_case(word, sug[0].term), "alan sözlüğü"
+        return correct_word(word, line_start)
+
+    def correct_text(self, text, log=None):
+        if not text:
+            return text
+        out_lines = []
+        for line in text.split("\n"):
+            pieces, last, first = [], 0, True
+            for m in _TOKEN.finditer(line):
+                w = m.group(0)
+                new, rule = self.correct_word(w, line_start=first and m.start() <= 2)
+                first = False
+                pieces.append(line[last:m.start()])
+                pieces.append(new)
+                last = m.end()
+                if rule and log is not None:
+                    log[(w, new, rule)] += 1
+            pieces.append(line[last:])
+            out_lines.append("".join(pieces))
+        return "\n".join(out_lines)
+
+    def valid_ratio(self, text):
+        """Genel ya da alan sözlüğünde bulunan kelime oranı."""
+        toks = [t.lower() for t in re.findall(r"[A-Za-z]+", text or "") if len(t) >= 3]
+        return sum(t in _WORDS or t in self.domain for t in toks) / len(toks) if toks else 0.0
+
+
+def dictionary_info():
+    """Genel sözlüğün kaynağı ve boyutu (sunum için)."""
+    _load()
+    return {"dosya": "frequency_dictionary_en_82_765.txt (symspellpy paketi)",
+            "kelime sayısı": len(_WORDS),
+            "kaynak": "SymSpell; SCOWL kelime listesi ile Google Books Ngram sıklıklarının kesişimi"}
