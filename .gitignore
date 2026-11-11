@@ -223,3 +223,6 @@ __marimo__/
 data/
 *.png
 !figures/*.png
+
+# README görselleri
+!docs/images/*.png

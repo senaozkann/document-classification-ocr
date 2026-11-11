@@ -24,13 +24,21 @@ document-classification-ocr/
 │   ├── 07_sablon_ve_sozluk.ipynb       Anahtar kelime şablonu + sözlükle OCR düzeltme
 │   ├── 08_gurultu_giderme.ipynb        Gürültü giderme yöntemlerinin karşılaştırması
 │   ├── 09_elle_degerlendirme.ipynb     İçerik çıkarımını resme bakarak elle değerlendirme
-│   └── 10_son_model.ipynb              Son model (metin + tablo), "emin değilim", çıkarım önce/sonra
-└── src/
-    ├── ocr_core.py           OCR fonksiyonları
-    ├── text_clean.py         Metin temizleme
-    ├── extract.py            Türe özel içerik çıkarımı
-    ├── sablon.py             Belge türü şablonları
-    └── ocr_fix.py            Sözlükle OCR düzeltme
+│   ├── 10_son_model.ipynb              Son model (metin + tablo), "emin değilim", çıkarım önce/sonra
+│   ├── 11_ocr_x2.ipynb                 Görüntüyü 2 kat büyütüp yeniden OCR
+│   ├── 12_yeni_belgelerde_cikarim.ipynb  Çıkarımın görülmemiş 20 belgede değerlendirilmesi
+│   └── 13_vize_ekleri.ipynb            Test setinin tamamı, şablon adım adım, sözlük aşamaları
+├── src/
+│   ├── ocr_core.py           OCR fonksiyonları
+│   ├── ocr_batch.py          Toplu OCR (kaldığı yerden devam)
+│   ├── text_clean.py         Metin temizleme
+│   ├── extract.py            Türe özel içerik çıkarımı
+│   ├── sablon.py             Belge türü şablonları
+│   ├── ocr_fix.py            Sözlükle OCR düzeltme (genel + iki aşamalı)
+│   └── final_model.py        Son model (karakter TF-IDF + tablo özelliği)
+├── results/                  Elle değerlendirme ve vize özet tabloları
+├── tools/                    Colab'da notebook çalıştırma yardımcısı
+└── docs/images/              README görselleri
 ```
 
 ## Drive'daki yapı (`MyDrive/bitirme_ocr/`)
